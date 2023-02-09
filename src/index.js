@@ -18,6 +18,11 @@ app.get("/test", (req, res, next) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.post("/test", (req, res, next) => {
+  const dataBody = req.body;
+  res.status(200).json({ status: "ok", response: dataBody });
+});
+
 app.get("/run-script", (req, res) => {
   const pythonProcess = spawn("python", [
     path.join(programPath, "hello_world.py"),
