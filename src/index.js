@@ -2,12 +2,22 @@ import express from "express";
 import helmet from "helmet";
 import bodyParser from "body-parser";
 import path from "path";
+import http from "http";
+import createSocketServer from "./middlewares/socketServer.js";
 import { spawn } from "child_process";
 
 const publicPath = path.join(".", "public");
 const programPath = path.join(".", "program");
 const PORT = 6006;
+const PORT_SOCKETS = 6007;
+
 const app = express();
+const socketApp = express();
+const socketServer = http.createServer(socketApp);
+createSocketServer(socketServer);
+socketServer.listen(PORT_SOCKETS, () => {
+  console.log(`socket server running on port ${PORT_SOCKETS}`);
+});
 
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
